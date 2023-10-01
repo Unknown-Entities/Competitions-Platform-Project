@@ -9,13 +9,15 @@ class User(db.Model, UserMixin): # type: ignore
     password = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(200), nullable=False)
     is_admin = db.Column(db.Boolean, nullable=False)
-    competition = db.relationship('UserCompetition', backref='user')
+    rank = db.Column(db.Integer, nullable=True)
+#    competition = db.relationship('UserCompetition', backref='user')
 
-    def __init__(self, username, password, email, is_admin):
+    def __init__(self, username, password, email, is_admin, rank):
         self.username = username
         self.set_password(password)
         self.email = email
         self.is_admin = is_admin
+        self.rank = rank
     
     def __repr__(self):
         return f'<User {self.id} {self.username}>'
@@ -27,7 +29,6 @@ class User(db.Model, UserMixin): # type: ignore
     def check_password(self, password):
         """Check hashed password."""
         return check_password_hash(self.password, password)
-    
     
     def get_json(self):
         return{

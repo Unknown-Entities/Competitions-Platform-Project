@@ -1,8 +1,8 @@
 from App.models import User
 from App.database import db
 
-def create_user(username, password):
-    newuser = User(username=username, password=password)
+def create_user(username, password, email, is_admin, rank):
+    newuser = User(username=username, password=password, email=email, is_admin=is_admin, rank=rank)
     db.session.add(newuser)
     db.session.commit()
     return newuser
@@ -30,20 +30,4 @@ def update_user(id, username):
         db.session.add(user)
         return db.session.commit()
     return None
-
-def get_rank(id):
-    user = get_user(id)
-    return user.rank
-
-def populate_ranks(users):
-    rankings = [User.get_rank() for user in users]
-    return rankings
-
-def calculate_ranking():
-    users = get_all_users()
-
-    scores = populate_ranks(users)
-    all_scores = sorted(set(scores), reverse=True)
-    ranks = [scores.index(x) + 1 for x in scores]
-    return ranks
     

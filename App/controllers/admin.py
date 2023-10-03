@@ -31,5 +31,3 @@ def update_admin(id, username):
         db.session.add(admin)
         return db.session.commit()
     return None
-
-

@@ -14,15 +14,12 @@ def __init__(self, profile_id, name, points, rank):
     self.name = name
     self.points = points
     self.rank = rank
-    self.rankings_list = []
 
 def get_json(self):
-        return{
-            'id': self.id,
-            'profile_id': self.profile_id,
-            'name': self.name,
-            'points': self.points,
-            'rank': self.rank
-            'rankings_list': [ self.calculate_ranking() ]
-        }
-    
+    return{
+        'id': self.id,
+        'profile_id': self.profile_id,
+        'name': self.name,
+        'points': self.points,
+        'rank': self.rank
+    }

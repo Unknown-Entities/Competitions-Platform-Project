@@ -1,4 +1,4 @@
-from App.models import User, Ranking
+from App.models import User, Ranking, ranking
 from App.database import db
 from .user import get_all_users, get_all_users_json, get_user
 
@@ -12,7 +12,7 @@ def calculate_ranking():
         ranks.rank = all_ranks.index(ranks)
     return all_ranks
 
-def add_ranking(ranking):
+def add_ranking(id, profile_id, name, points, rank): #ranking):
     newrank = Ranking(id=id, profile_id=profile_id, name=name, points=points, rank=rank)
     db.session.add(newrank)
     db.session.commit()
@@ -25,4 +25,5 @@ def get_rankings_json():
     ranks = calculate_ranking()
     if not ranks:
         return []
-    return [ranks.toJSON() for rank in ranks]
+    ranks = 
+    return [Ranking(ranks.get_json()) for rank in ranks] # type: ignore

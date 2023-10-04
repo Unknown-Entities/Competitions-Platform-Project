@@ -8,15 +8,12 @@ class User(db.Model, UserMixin): # type: ignore
     username =  db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(200), nullable=False)
-#    is_admin = db.Column(db.Boolean, nullable=False)
     rank = db.Column(db.Integer, nullable=True)
-#    competition = db.relationship('UserCompetition', backref='user')
 
-    def __init__(self, username, password, email, is_admin, rank):
+    def __init__(self, username, password, email, rank):
         self.username = username
         self.set_password(password)
         self.email = email
-   #     self.is_admin = is_admin
         self.rank = rank
     
     def __repr__(self):

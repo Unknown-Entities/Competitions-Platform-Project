@@ -9,17 +9,17 @@ class Ranking(db.Model):
     points = db.Column(db.Integer, nullable=False)
     rank = db.Column(db.Integer, nullable=False)
 
-def __init__(self, profile_id, name, points, rank):
-    self.profile_id = profile_id
-    self.name = name
-    self.points = points
-    self.rank = rank
+    def __init__(self, profile_id, name, points, rank):
+        self.profile_id = profile_id
+        self.name = name
+        self.points = points
+        self.rank = rank
 
-def get_json(self):
-    return{
-        'id': self.id,
-        'profile_id': self.profile_id,
-        'name': self.name,
-        'points': self.points,
-        'rank': self.rank
-    }
+    def get_json(self):
+        return{
+            'id': self.id,
+            'profile_id': self.profile_id,
+            'name': self.name,
+            'points': self.points,
+            'rank': self.rank
+        }

@@ -1,5 +1,6 @@
 from flask_login import login_user, login_manager, logout_user, LoginManager
 from flask_jwt_extended import create_access_token, jwt_required, JWTManager
+from .user import get_user
 
 from App.models import User
 
@@ -41,3 +42,7 @@ def setup_jwt(app):
         return User.query.get(identity)
 
     return jwt
+
+def is_admin(id):
+    user = get_user(id)
+    return user.is_admin != None

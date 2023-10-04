@@ -1,4 +1,5 @@
 from .user import *
 from .competions import *
-from .admin import *
 from .ranking import *
+from .notification import *
+from .results import *

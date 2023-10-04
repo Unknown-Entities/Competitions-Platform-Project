@@ -1,11 +1,23 @@
 from App.models import User
 from App.database import db
 
-def create_user(username, password, email, rank):
-    newuser = User(username=username, password=password, email=email, rank=rank)        
-    db.session.add(newuser)
-    db.session.commit()
-    return newuser
+def create_user(username, password, email):
+    newuser = User(username=username, password=password, email=email, rank=0, is_admin=False, results = 0)
+    try:
+        db.session.add(newuser)
+        db.session.commit()
+        return newuser
+    except:
+        return None
+
+def create_admin(username, password, email):
+    newadmin = User(username=username, password=password, email=email, rank=0, is_admin=True, results=0)
+    try:
+        db.session.add(newadmin)
+        db.session.commit()
+        return newadmin
+    except:
+        return None
 
 def get_user_by_username(username):
     return User.query.filter_by(username=username).first()

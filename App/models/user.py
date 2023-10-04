@@ -2,22 +2,25 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import UserMixin
 from App.database import db
 
-
 class User(db.Model, UserMixin): # type: ignore
     id = db.Column(db.Integer, primary_key=True)
     username =  db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(200), nullable=False)
     rank = db.Column(db.Integer, nullable=True)
+    is_admin = db.Column(db.Boolean, nullable=False)
+    results = db.Column(db.Integer, nullable=True)
 
-    def __init__(self, username, password, email, rank):
+    def __init__(self, username, password, email, rank, is_admin, results):
         self.username = username
         self.set_password(password)
         self.email = email
         self.rank = rank
+        self.is_admin = is_admin
+        self.reults = results
     
     def __repr__(self):
-        return f'<User {self.id} {self.username}>'
+        return f'<User {self.id} {self.username} {self.email}>'
 
     def set_password(self, password):
         """Create hashed password."""
@@ -31,5 +34,6 @@ class User(db.Model, UserMixin): # type: ignore
         return{
             'id': self.id,
             'username': self.username,
-            'email': self.email
+            'email': self.email,
+            'results': self.reults
         }

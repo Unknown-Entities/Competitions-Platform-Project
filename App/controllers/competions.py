@@ -2,8 +2,8 @@
 from App.models import Competition
 from App.database import db
 
-def create_competion(id, name, category, description):
-    newcomp = Competition(id=id, name=name, category=category,  description=description)
+def create_competion(name, category, description, competionDate):
+    newcomp = Competition(name=name, winner_id=None, winner="None", runnerup_id=None, runnerup="None", category=category,  description=description, results=0, competionDate=competionDate)
     db.session.add(newcomp)
     db.session.commit()
     return newcomp
@@ -18,10 +18,10 @@ def get_all_competions():
     return Competition.query.all()
 
 def get_all_competions_json():
-    comp = Competition.query.all()
-    if not comp:
+    competitions = Competition.query.all()
+    if not competitions:
         return []
-    comp = [competions.get_json() for competions in comp]
+    comp = [competition.get_json() for competition in competitions]
     return comp
 
 def edit_competions(id, name, category, description):

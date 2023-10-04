@@ -31,14 +31,13 @@ def identify_page():
     return jsonify({'message': f"username: {current_user.username}, id : {current_user.id}"})
 
 
-@auth_views.route('/login', methods=['POST'])
+@auth_views.route('/auth', methods=['POST'])
 def login_action():
-    data = request.form
-    user = login(data['username'], data['password'])
-    if user:
-        login_user(user)
-        return 'user logged in!'
-    return 'bad username or password given', 401
+    data = request.json
+    token = jwt_authenticate(data['username'], data['password'])
+    if not token:
+        return jsonify(error='bad username/password given'), 401
+    return jsonify(access_token=token)
 
 
 @auth_views.route('/logout', methods=['GET'])

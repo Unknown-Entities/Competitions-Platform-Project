@@ -1,4 +1,4 @@
-from App.models import Ranking
+from App.models import User, Ranking, ranking
 from App.database import db
 from .user import get_all_users, get_all_users_json, get_user
 
@@ -25,4 +25,4 @@ def get_rankings_json():
     ranks = calculate_ranking()
     if not ranks:
         return []
-    return [Ranking(ranks.get_json()) for rank in ranks] # type: ignore
+    return [ranking.get_json() for rank in ranks] # type: ignore

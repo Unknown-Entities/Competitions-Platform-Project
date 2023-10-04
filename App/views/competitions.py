@@ -21,7 +21,7 @@ competition_views = Blueprint('rank_views', __name__, template_folder='../templa
 @jwt_required()
 def create_competion_action(id, name, category, description):
     newcomp = create_competion(id=id, name=name, category=category,  description=description)
-    return create_competion
+    return create_competiton
 
 @competition_views.route('/competitions/<int:id>', methods=['POST'])
 @jwt_required()

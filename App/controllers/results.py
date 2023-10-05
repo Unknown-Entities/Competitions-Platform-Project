@@ -1,15 +1,50 @@
 #from App.models import User
 from App.models import Competition, Results
 from App.database import db
+from .user import get_user
+from .competions import get_competition
 
 def gather_results(id):
-    results = [Results.query.filter_by(competitionId=id)]
-    sorted_results = sorted(results, key=lambda result: result.score)
-    sorted_results = [results.get_json() for sorted_result in sorted_results]
-    return sorted_results
+    getresults = Results.query.filter_by(competitionId=id).all()
+    getresults = sorted(getresults, key=lambda getresult: getresult.score, reverse=True)
+    results = [getresult.get_result_json(getresults.index(getresult)) for getresult in getresults]
 
-def add_results():
-    newresult = Results(userId=userId, competitionId=competitionId, score=score)
-    db.session.add(newresult)
-    db.session.commit()
-    return newcomp
+    competition = Competition.query.filter_by(id=id).first()
+    if competition:
+        #competition.runnerup_id = results[1].id
+        competition.runnerup = results[1]['Name']
+        #competition.winner_id = results[0].id
+        competition.winner = results[0]['Name']
+        db.session.add(competition)
+        db.session.commit()
+    return results
+
+def add_results(userId, competitionId, score):
+    user = get_user(userId)
+    competition = get_competition(competitionId)
+    result_match = check_duplicate(userId, competitionId)
+    if user and competition:
+        if result_match == False:
+            newresult = Results(userId=userId, competitionId=competitionId, score=score)
+            db.session.add(newresult)
+            db.session.commit()
+            return newresult
+        return None
+    return None
+
+def check_duplicate(userId, competitionId):
+    result = Results.query.filter_by(competitionId=competitionId, userId=userId).first()
+    if result:
+        return True
+    return False
+
+def check_competitions(userId):
+    competitions = Competition.query.all()
+    results = []
+    for competition in competitions:
+        check = Results.query.filter_by(userId=userId, competitionId=competition.id).first()
+        if check:
+            add = get_competition(competition.id)
+            results.append(add)
+    results = [result.get_json() for result in results]
+    return results

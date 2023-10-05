@@ -9,18 +9,17 @@ class User(db.Model, UserMixin): # type: ignore
     email = db.Column(db.String(200), nullable=False)
     rank = db.Column(db.Integer, nullable=True)
     is_admin = db.Column(db.Boolean, nullable=False)
-    results = db.Column(db.Integer, nullable=True)
+    #competition = db.relationship('Competition', backref=db.backref('user', lazy='joined'))
 
-    def __init__(self, username, password, email, rank, is_admin, results):
+    def __init__(self, username, password, email, rank, is_admin):
         self.username = username
         self.set_password(password)
         self.email = email
         self.rank = rank
         self.is_admin = is_admin
-        self.reults = results
     
     def __repr__(self):
-        return f'<User {self.id} {self.username} {self.email}>'
+        return f'<User {self.id} {self.username}>'
 
     def set_password(self, password):
         """Create hashed password."""
@@ -35,5 +34,5 @@ class User(db.Model, UserMixin): # type: ignore
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            'results': self.reults
+            'rank': self.rank
         }

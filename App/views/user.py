@@ -7,6 +7,8 @@ from.index import index_views
 from App.controllers import (
     create_user,
     create_admin,
+    get_user,
+    check_competitions,
     jwt_authenticate, 
     get_all_users,
     get_all_users_json,
@@ -57,3 +59,10 @@ def create_admin_user_action():
     if result:
         return jsonify({"message": f"Admin created with id {result.id}"}), 201
     return jsonify({"error": f"Admin Username {data['username']} already exists "}), 500
+
+@user_views.route('/myprofile', methods=['GET'])
+@jwt_required()
+def view_profile_action():
+    user = get_user(jwt_current_user.id)
+    competitions = check_competitions(user.id)
+    return jsonify(user.get_json(), competitions)

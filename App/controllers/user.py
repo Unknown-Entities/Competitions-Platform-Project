@@ -2,7 +2,7 @@ from App.models import User
 from App.database import db
 
 def create_user(username, password, email):
-    newuser = User(username=username, password=password, email=email, rank=0, is_admin=False, results = 0)
+    newuser = User(username=username, password=password, email=email, rank=0, is_admin=False)
     try:
         db.session.add(newuser)
         db.session.commit()
@@ -11,7 +11,7 @@ def create_user(username, password, email):
         return None
 
 def create_admin(username, password, email):
-    newadmin = User(username=username, password=password, email=email, rank=0, is_admin=True, results=0)
+    newadmin = User(username=username, password=password, email=email, rank=0, is_admin=True)
     try:
         db.session.add(newadmin)
         db.session.commit()

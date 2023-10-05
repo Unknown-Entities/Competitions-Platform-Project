@@ -21,5 +21,5 @@ def add_competition_results_action():
         result = add_results(userId=data['userId'], competitionId=data['competitionId'], score=data['score'])
         if result:
             return jsonify({"message": f"Result created with id {result.id}"}), 201
-        return jsonify({"error": f"Result id {data['id']} already exists "}), 500
+        return jsonify({"error": f"Either user or competition does not exist, or the result is already recorded"}), 500
     return jsonify({"error": f"User does not have authorization to add results to a competition"}), 403

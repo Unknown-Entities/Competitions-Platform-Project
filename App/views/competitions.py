@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
 from flask_login import current_user, login_required
+from App.models import Competition
 
 from .index import index_views
 
@@ -13,6 +14,7 @@ from App.controllers import (
     get_all_competions,
     get_all_competions_json,
     edit_competions,
+    gather_results,
     update_competions,
     delete_competition
 )
@@ -35,6 +37,15 @@ def create_competition_action():
 def list_competitions_action():
     competitions = get_all_competions_json()
     return jsonify(competitions), 200
+
+@competition_views.route('/competitions/<int:id>', methods=['GET'])
+@jwt_required()
+def competition_details_action(id):
+    competition = Competition.query.get(id)
+    if competition:
+        comp_results = gather_results(id)
+        return jsonify(competition.get_json(), comp_results), 200
+    return jsonify({"error": f"Competition does not exist"}), 500
 
 @competition_views.route('/competitions/<int:id>', methods=['DEL'])
 @jwt_required()

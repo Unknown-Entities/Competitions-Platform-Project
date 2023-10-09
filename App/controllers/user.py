@@ -1,11 +1,13 @@
 from App.models import User
 from App.database import db
+from .ranking import add_ranking
 
 def create_user(username, password, email):
     newuser = User(username=username, password=password, email=email, rank=0, is_admin=False)
     try:
         db.session.add(newuser)
         db.session.commit()
+        add_ranking(profile_id=newuser.id, name=username, points=0, rank=0)
         return newuser
     except:
         return None
@@ -15,6 +17,7 @@ def create_admin(username, password, email):
     try:
         db.session.add(newadmin)
         db.session.commit()
+        add_ranking(profile_id=newadmin.id, name=username, points=0, rank=0)
         return newadmin
     except:
         return None

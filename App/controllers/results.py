@@ -3,6 +3,7 @@ from App.models import Competition, Results
 from App.database import db
 from .user import get_user
 from .competions import get_competition
+from .ranking import get_rank
 
 def gather_results(id):
     getresults = Results.query.filter_by(competitionId=id).all()
@@ -26,7 +27,10 @@ def add_results(userId, competitionId, score):
     if user and competition:
         if result_match == False:
             newresult = Results(userId=userId, competitionId=competitionId, score=score)
+            ranking = get_rank(userId)
+            ranking.points += int(score)
             db.session.add(newresult)
+            db.session.add(ranking)
             db.session.commit()
             return newresult
         return None

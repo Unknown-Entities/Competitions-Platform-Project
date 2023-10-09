@@ -14,16 +14,8 @@ from App.controllers import (
 
 rank_views = Blueprint('rank_views', __name__, template_folder='../templates')
 
-@rank_views.route('/rankings', methods=['POST'])
-@jwt_required()
-def add_rankings_action():
-    data = request.json
-    newrank = Ranking(id=id, profile_id=data['profile_id'], name=data['name'], points=data['points'], rank=data['rank'])
-    db.session.add(newrank)
-    db.session.commit()
-    return
-
 @rank_views.route('/rankings', methods=['GET'])
 @jwt_required()
 def get_rankings_action():
-    return jsonify(get_rankings_json), 200
+    check = get_rankings_json()
+    return jsonify(get_rankings_json()), 200

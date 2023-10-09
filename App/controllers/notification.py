@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from App.models import Notification
+from App.models import Notification, User, Ranking
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO
 from flask_socketio import emit
@@ -13,10 +13,10 @@ db = SQLAlchemy(app)
 def handle_connect():
     print('Client connected')
 
-def send_notification(user_id, message, read):
-    notification = Notification(user_id=user_id, message=message, read=read)
+def send_notification(userId, message, read):
+    notification = Notification(userId=userId, message=message, read=read)
     db.session.add(notification)
     db.session.commit()
 
     # Broadcast the notification to the user
-    emit('new_notification', {'message': message}, room=user_id)
+    emit('new_notification', {'message': message}, room=userId)

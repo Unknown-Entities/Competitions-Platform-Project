@@ -17,9 +17,8 @@ class Ranking(db.Model):
 
     def get_json(self):
         return{
-            'id': self.id,
-            'profile_id': self.profile_id,
-            'name': self.name,
-            'points': self.points,
-            'rank': self.rank
+            'ID': self.profile_id,
+            'Name': self.name,
+            'Points': self.points,
+            'Rank': self.rank
         }

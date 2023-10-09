@@ -20,3 +20,4 @@ def send_notification(userId, message, read):
 
     # Broadcast the notification to the user
     emit('new_notification', {'message': message}, room=userId)
+    

@@ -2,8 +2,8 @@
 from App.models import Competition
 from App.database import db
 
-def create_competion(name, category, description, competionDate):
-    newcomp = Competition(name=name, winner_id=None, winner="None", runnerup_id=None, runnerup="None", category=category,  description=description, results=0, competionDate=competionDate)
+def create_competion(name, category, description): #competionDate
+    newcomp = Competition(name=name, winner_id=None, winner="None", runnerup_id=None, runnerup="None", category=category,  description=description, results=0) #, competionDate=competionDate # type: ignore
     db.session.add(newcomp)
     db.session.commit()
     return newcomp

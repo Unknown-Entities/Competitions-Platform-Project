@@ -9,7 +9,8 @@ from App.controllers import (
     calculate_ranking,
     add_ranking,
     get_rankings,
-    get_rankings_json
+    get_rankings_json,
+    get_top_20_users_rank
 )
 
 rank_views = Blueprint('rank_views', __name__, template_folder='../templates')
@@ -19,3 +20,9 @@ rank_views = Blueprint('rank_views', __name__, template_folder='../templates')
 def get_rankings_action():
     check = get_rankings_json()
     return jsonify(get_rankings_json()), 200
+
+@rank_views.route('/rankings/20', methods=['GET'])
+@jwt_required()
+def get_top_rankings_action():
+    check = get_top_20_users_rank()
+    return jsonify(check), 200

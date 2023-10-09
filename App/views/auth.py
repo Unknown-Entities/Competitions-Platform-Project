@@ -7,7 +7,9 @@ from.index import index_views
 from App.controllers import (
     create_user,
     jwt_authenticate,
-    login 
+    login,
+    get_all_users,
+    get_all_users_json
 )
 
 auth_views = Blueprint('auth_views', __name__, template_folder='../templates')
@@ -25,13 +27,13 @@ def get_user_page():
 @auth_views.route('/identify', methods=['GET'])
 @login_required
 def identify_page():
-    return jsonify({'message': f"username: {current_user.username}, id : {current_user.id}"})
+    return jsonify({'message': f"username: {current_user.username}, id : {current_user.id}"}) # type: ignore
 
 
 @auth_views.route('/auth', methods=['POST'])
 def login_action():
     data = request.json
-    token = jwt_authenticate(data['username'], data['password'])
+    token = jwt_authenticate(data['username'], data['password'])  # type: ignore
     if not token:
         return jsonify(error='bad username/password given'), 401
     return jsonify(access_token=token)
@@ -54,13 +56,13 @@ def get_users_action():
 @auth_views.route('/api/users', methods=['POST'])
 def create_user_endpoint():
     data = request.json
-    create_user(data['username'], data['password'])
-    return jsonify({'message': f"user {data['username']} created"})
+    create_user(data['username'], data['password'], data['email'])   # type: ignore
+    return jsonify({'message': f"user {data['username']} created"})  # type: ignore
 
 @auth_views.route('/api/login', methods=['POST'])
 def user_login_api():
   data = request.json
-  token = jwt_authenticate(data['username'], data['password'])
+  token = jwt_authenticate(data['username'], data['password'])       # type: ignore
   if not token:
     return jsonify(message='bad username or password given'), 401
   return jsonify(access_token=token)

@@ -1,4 +1,3 @@
-
 from .user import User
 from App.database import db
 

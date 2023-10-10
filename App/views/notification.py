@@ -18,8 +18,10 @@ notification_views = Blueprint('notification_views', __name__, template_folder='
 #    check = notify_rank()
 #    return jsonify(check), 200
 
-@notification_views.route('/notfications', methods=['GET'])
+@notification_views.route('/notifications', methods=['GET'])
 @jwt_required()
 def get_send_notification_action():
-    check = send_notification() # type: ignore
-    return jsonify(check), 200
+    check = send_notification(4, "Hi", False) # type: ignore
+    if check:
+      return jsonify({"message": f"Notification sent"}), 200
+    return jsonify({"error": f"Notification sent"}), 401

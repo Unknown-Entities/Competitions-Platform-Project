@@ -6,9 +6,9 @@ from App.database import db
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://mydb_r94x_user:gTa2ZEbsAGd0abVR78MMhh2gRYdYfQiT@dpg-ckipcqgmccbs73bhhu90-a/mydb_r94x'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://mydb_r94x_user:gTa2ZEbsAGd0abVR78MMhh2gRYdYfQiT@dpg-ckipcqgmccbs73bhhu90-a/mydb_r94x'
 socketio = SocketIO(app)
-db = SQLAlchemy(app)
+#db = SQLAlchemy(app)
 
 
 @socketio.on('connect')

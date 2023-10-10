@@ -10,16 +10,16 @@ from App.controllers import (
     send_notification,
 )
 
-notification_views = Blueprint('', __name__, template_folder='../templates')
+notification_views = Blueprint('notification_views', __name__, template_folder='../templates')
 
-@notification_views.route('/rankings', methods=['GET'])
+@notification_views.route('/notfications', methods=['GET'])
 @jwt_required()
-def get_rankings_action():
+def get_notifing_ranks_action():
     check = notify_rank()
     return jsonify(check), 200
 
-@notification_views.route('/rankings/20', methods=['GET'])
+@notification_views.route('/notfications', methods=['GET'])
 @jwt_required()
-def get_top_rankings_action():
+def get_send_notification_action():
     check = send_notification()
     return jsonify(check), 200

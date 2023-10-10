@@ -8,7 +8,7 @@ from App.database import db
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 socketio = SocketIO(app)
-db = SQLAlchemy(app)
+#db = SQLAlchemy(app)
 
 @socketio.on('connect')
 def handle_connect():

@@ -19,4 +19,4 @@ def send_notification(userId, message, read):
     db.session.commit()
 
     # Broadcast the notification to the user
-    emit('new_notification', {'message': message}, room=userId)
+    return emit('new_notification', {'message': message}, room=userId)

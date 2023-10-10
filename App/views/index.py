@@ -4,16 +4,18 @@ from App.controllers import create_user, create_admin, get_user
 
 index_views = Blueprint('index_views', __name__, template_folder='../templates')
 
+initialize_check = False
+
 @index_views.route('/', methods=['GET'])
 def index_page():
-    check = get_user(2)
-    if check:
+    if initialize_check:
         print('database already initialized')
     else:
         db.drop_all()
         db.create_all()
         create_user('bob', 'bobpass', 'bob@email')
         create_admin('rob', 'robpass', 'rob@email')
+        initialize_check = True
         print('database intialized')
     return render_template('index.html')
 

@@ -6,6 +6,11 @@ index_views = Blueprint('index_views', __name__, template_folder='../templates')
 
 @index_views.route('/', methods=['GET'])
 def index_page():
+    db.drop_all()
+    db.create_all()
+    create_user('bob', 'bobpass', 'bob@email')
+    create_admin('rob', 'robpass', 'rob@email')
+    print('database intialized')
     return render_template('index.html')
 
 @index_views.route('/init', methods=['GET'])

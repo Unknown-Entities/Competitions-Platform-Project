@@ -1,7 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from wsgi import app
 
-db = SQLAlchemy()
+db = SQLAlchemy(app)
 
 def get_migrate(app):
     return Migrate(app, db)

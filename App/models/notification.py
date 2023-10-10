@@ -6,6 +6,7 @@ class Notification(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('user.id'))
     message = db.Column(db.String(255), nullable=False)
     read = db.Column(db.Boolean, default=False)
+    
 
     def __init__(self, userId, message, read):
         self.userId = userId

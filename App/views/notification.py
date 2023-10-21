@@ -1,14 +1,15 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
 from flask_login import current_user, login_required
-from flask_socketio import SocketIO
 
 from .index import index_views
 
 from App.controllers import (
-  #  notify_rank,
-    handle_connect,
-    send_notification,
+    generate_notification,
+    notfiy,
+    get_all_notifications,
+    get_all_notifications,
+    get_all_notifications_json
 )
 
 notification_views = Blueprint('notification_views', __name__, template_folder='../templates')
@@ -26,3 +27,8 @@ def get_send_notification_action():
     if check:
       return jsonify({"message": f"Notification sent"}), 200
     return jsonify({"error": f"Notification sent"}), 401
+
+@notification_views.route('/get_notfiy', method=['Get'])
+def get_all_notifications():
+   notif = get_all_notifications_json()
+   return jsonify(notif)                 

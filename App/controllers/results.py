@@ -12,10 +12,14 @@ def gather_results(id):
 
     competition = Competition.query.filter_by(id=id).first()
     if competition:
-        #competition.runnerup_id = results[1].id
-        competition.runnerup = results[1]['Name']
-        #competition.winner_id = results[0].id
-        competition.winner = results[0]['Name']
+        if not results[1]['Name']:
+            competition.runnerup = "None"
+        if results[1]['Name']:
+            competition.runnerup = results[1]['Name']
+        if not results[0]['Name']:
+            competition.winner = "None"
+        if results[0]['Name']:
+            competition.winner = results[0]['Name']
         db.session.add(competition)
         db.session.commit()
     return results

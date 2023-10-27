@@ -47,17 +47,21 @@ def static_user_page():
 @user_views.route('/normal', methods=['POST'])
 def create_normal_user_action():
     data = request.json
-    result = create_user(username=data['username'], password=data['password'], email=data['email'])
-    if result:
-        return jsonify({"message": f"User created with id {result.id}"}), 201
+    check = User.query.filter_by(username=data['username']).first()
+    if not check:
+        result = create_user(username=data['username'], password=data['password'], email=data['email'])
+        if result:
+            return jsonify({"message": f"User created with id {result.id}"}), 201
     return jsonify({"error": f"Username {data['username']} already exists "}), 500
 
 @user_views.route('/admin', methods=['POST'])
 def create_admin_user_action():
     data = request.json
-    result = create_admin(username=data['username'], password=data['password'], email=data['email'])
-    if result:
-        return jsonify({"message": f"Admin created with id {result.id}"}), 201
+    check = User.query.filter_by(username=data['username']).first()
+    if not check:
+        result = create_admin(username=data['username'], password=data['password'], email=data['email'])
+        if result:
+            return jsonify({"message": f"Admin created with id {result.id}"}), 201
     return jsonify({"error": f"Admin Username {data['username']} already exists "}), 500
 
 @user_views.route('/myprofile', methods=['GET'])

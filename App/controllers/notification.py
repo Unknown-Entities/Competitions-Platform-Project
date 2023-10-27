@@ -1,4 +1,4 @@
-from App.models import Notification
+from App.models import Notification, Ranking
 from sqlalchemy.exc import IntegrityError
 from App.controllers import  get_top_20_users_rank
 from App.database import db
@@ -7,9 +7,9 @@ def generate_notification(userId, message, rank):
     new_Notification = Notification(userId=userId, rank=rank, message=message)
     return new_Notification
 
-def notfiy(userId, rank, message):
-    top_rank = get_top_20_users_rank(rank) # type: ignore
-    new_notification = generate_notification(userId=userId,rank=rank, message=message)
+def notify(rank, message):
+    top_rank = Ranking.query.filter_by(rank=rank).first() # type: ignore
+    new_notification = generate_notification(userId=top_rank.profile_id, rank=rank, message=message)
     try:
         db.session.add(new_notification)
         db.session.commit()

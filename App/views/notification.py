@@ -6,7 +6,7 @@ from .index import index_views
 
 from App.controllers import (
     generate_notification,
-    notfiy,
+    notify,
     get_all_notifications,
     get_all_notifications,
     get_all_notifications_json
@@ -23,12 +23,12 @@ notification_views = Blueprint('notification_views', __name__, template_folder='
 @notification_views.route('/notifications', methods=['GET'])
 @jwt_required()
 def get_send_notification_action():
-    check = send_notification(4, "Hi", False) # type: ignore
+    check = notify(1, "Hi")  # type: ignore
     if check:
       return jsonify({"message": f"Notification sent"}), 200
     return jsonify({"error": f"Notification sent"}), 401
 
-@notification_views.route('/get_notfiy', method=['Get'])
+@notification_views.route('/get_notfiy', methods=['Get'])
 def get_all_notifications():
    notif = get_all_notifications_json()
    return jsonify(notif)                 

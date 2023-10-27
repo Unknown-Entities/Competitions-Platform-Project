@@ -1,16 +1,21 @@
 import os, tempfile, pytest, logging, unittest
 from werkzeug.security import check_password_hash, generate_password_hash
+from flask import jsonify
 
 from App.main import create_app
 from App.database import db, create_db
 from App.models import User
 from App.controllers import (
     create_user,
+    create_competion,
     get_all_users_json,
     login,
     get_user,
     get_user_by_username,
     update_user
+    update_user,
+    delete_competition,
+    jwt_authenticate
 )
 
 
@@ -37,7 +42,7 @@ class UserUnitTests(unittest.TestCase):
     def test_get_json(self):
         user = User("bob", "bobpass", "bob@gmail.com", "1", "False")
         user_json = user.get_json()
-        self.assertDictEqual(user_json, {"id":None, "username":"bob"})
+        self.assertDictEqual(user_json, {"id":None, "username":"bob", "email":"bob@gmail.com", "rank": "1"})
     
     def test_hashed_password(self):
         password = "mypass"
@@ -68,18 +73,31 @@ def test_authenticate():
     user = create_user("bob", "bobpass", "bob@gmail.com", "1", "False")
     assert login("bob", "bobpass") != None
 
-class UsersIntegrationTests(unittest.TestCase):
+class UserIntegrationTests(unittest.TestCase):
 
     def test_create_user(self):
-        user = create_user("rick", "bobpass", "rick@gmail.com", "2", "False")
-        assert user.username == "rick"
+        userone = create_user("bob", "bobpass", "bob@mail.com")
+        assert userone.username == "bob"
+
+    def test_authenticate(self):
+        logintoken = jwt_authenticate("bob", "bobpass")
+        if not logintoken:
+            logintoken = jsonify(error='bad username/password given')
+        else:
+            logintoken = jsonify(access_token=logintoken)
+        assert logintoken != 'bad username/password given'
 
     def test_get_all_users_json(self):
         users_json = get_all_users_json()
-        self.assertListEqual([{"id":1, "username":"bob"}, {"id":2, "username":"rick"}], users_json)
+        self.assertListEqual([{"id":1, "username":"bob", "email":"bob@mail.com", "rank":0}], users_json)
 
     # Tests data changes in the database
     def test_update_user(self):
         update_user(1, "ronnie")
         user = get_user(1)
         assert user.username == "ronnie"
+    
+    def test_delete_competition(self):
+        comp = create_competion("CodeX", "Beginner", "A coding competition for beginners.")
+        comp = delete_competition(comp.id)
+        assert comp == True

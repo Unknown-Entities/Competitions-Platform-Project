@@ -12,7 +12,7 @@ class Notification(db.Model):
         self.userId = userId
         self.rank = rank
         self.message = message
-        self.read ="unread"
+        self.read = False
 
     def get_json(self):
         return {

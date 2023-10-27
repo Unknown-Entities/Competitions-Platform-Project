@@ -12,10 +12,11 @@ def gather_results(id):
 
     competition = Competition.query.filter_by(id=id).first()
     if competition:
-        if not results[1]['Name']:
-            competition.runnerup = "None"
-        if results[1]['Name']:
+        try:
             competition.runnerup = results[1]['Name']
+        except IndexError:
+            competition.runnerup = "None"
+        
         if not results[0]['Name']:
             competition.winner = "None"
         if results[0]['Name']:
